@@ -23,7 +23,6 @@ public class countCars extends testPrepare {
         searchOptionsPage.isUrlLoaded(webDriver,SearchOptionsPage.PAGE_URL);
         webDriver.findElement(By.id("cookiescript_accept")).click();
         searchOptionsPage.setSearchingCriteria(brand,model);
-        Thread.sleep(5000);
         WebElement resultsInfo = webDriver.findElement(By.xpath("//div[contains(text(), 'от общо')]"));
         String text = resultsInfo.getText();
         String[] tokens = text.trim().split("\\s+");

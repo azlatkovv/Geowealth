@@ -28,7 +28,7 @@ public class SearchOptionsPage{
     private WebElement SearchButton;
     @FindBy(xpath = "//div[@id=\"akSearchMarki\"]")
     private WebElement brandSearchResult;
-    @FindBy(xpath = "//div[@id=\"akSearchModeli\"]")
+    @FindBy(id = "akSearchModeliArrow")
     private WebElement modelSearchResult;
 
 
@@ -51,22 +51,14 @@ public class SearchOptionsPage{
         webDriver.get(PAGE_URL);
     }
 
-    public void setSearchingCriteria(String brand, String model)  {
+    public void setSearchingCriteria(String brand, String model) throws InterruptedException {
         Brand.sendKeys(brand);
         brandSearchResult.click();
-        Actions actions = new Actions(webDriver);
-       // actions.moveToElement(dropdown).click().perform();
+        Thread.sleep(2000); //
         Model.click();
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        WebElement dropdown = wait.until(ExpectedConditions.visibilityOf(modelSearchResult));
-       // Actions actions = new Actions(webDriver);
-       // actions.moveToElement(dropdown).click().perform();
-
-       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("data-value= Golf")));
-      //  Model.findElement(By.name(model)).click();
-
-      // FourWheelDrive.click();
-        //SearchButton.click();
+        Model.findElement(By.name(model)).click();
+        FourWheelDrive.click();
+        SearchButton.click();
     }
 
 }
