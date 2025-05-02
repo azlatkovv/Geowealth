@@ -1,14 +1,12 @@
 package pages;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import java.time.Duration;
 
 
@@ -32,6 +30,7 @@ public class SearchOptionsPage{
     private WebElement modelSearchResult;
 
 
+
     public SearchOptionsPage(WebDriver webDriver) {
             this.webDriver = webDriver;
             PageFactory.initElements(webDriver, this);
@@ -52,12 +51,18 @@ public class SearchOptionsPage{
     }
 
     public void setSearchingCriteria(String brand, String model) throws InterruptedException {
+
         Brand.sendKeys(brand);
         brandSearchResult.click();
-        Thread.sleep(2000); //
+        Thread.sleep(1000); //
         Model.click();
-        Model.findElement(By.name(model)).click();
-        FourWheelDrive.click();
+        WebElement golfOption = webDriver.findElement(By.xpath("//input[@type='checkbox' and @data-value='Golf']"));
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", golfOption);
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(golfOption));
+        golfOption.click();
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(FourWheelDrive).click().perform();
         SearchButton.click();
     }
 
