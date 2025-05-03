@@ -48,17 +48,17 @@ public class SearchOptionsPage{
         webDriver.get(PAGE_URL);
     }
 
-    public void setSearchingCriteria(String brand, String model) throws InterruptedException {
+    public void setSearchingCriteria(String brand, String model) {
 
         Brand.sendKeys(brand);
         brandSearchResult.click();
-        Thread.sleep(1000); //
-        Model.click();
-        WebElement golfOption = webDriver.findElement(By.xpath("//input[@type='checkbox' and @data-value='Golf']"));
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", golfOption);
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(golfOption));
-        golfOption.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class = 'akCustomSelectInput' and @placeholder = 'Всички']")));
+        Model.click();
+        String xpath = String.format("//input[@type='checkbox' and @data-value='%s']", model);
+        WebElement modelOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", modelOption);
+        modelOption.click();
         Actions actions = new Actions(webDriver);
         actions.moveToElement(FourWheelDrive).click().perform();
         SearchButton.click();
